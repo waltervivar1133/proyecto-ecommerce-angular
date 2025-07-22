@@ -3,6 +3,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@auth/*": ["./src/app/auth*"],
+      "@store-front/*": ["./src/app/store-front/*"],
+      "@products/*": ["./src/app/products/*"],
+      "@shared/*": ["./src/app/shared/*"],
+      "@dashboard/*": ["./src/app/admin-dashboard/*"],
+    },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
