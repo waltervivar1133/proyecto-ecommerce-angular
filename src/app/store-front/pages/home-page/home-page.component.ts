@@ -1,9 +1,27 @@
-import { Component } from '@angular/core';
-import { ProductCardComponent } from '@products/components/product-card/product-card.component';
+import { Component, inject } from '@angular/core';
+import { ProductsService } from '@products/services/products.service';
+import { rxResource } from '@angular/core/rxjs-interop';
+
+import { ProductsGridComponent } from '@store-front/components/products-grid/products-grid.component';
 
 @Component({
   selector: 'app-home-page',
-  imports: [ProductCardComponent],
-  templateUrl: './home-page.component.html',
+  imports: [ProductsGridComponent],
+  template: `
+    <products-grid
+      [resource]="productsResource"
+      title="Productos destacados"
+      subtitle="Para todos los gustos"
+    />
+  `,
 })
-export class HomePageComponent {}
+export class HomePageComponent {
+  productsService = inject(ProductsService);
+
+  productsResource = rxResource({
+    request: () => ({}),
+    loader: () => {
+      return this.productsService.getProducts({ limit: 5, gender: 'woman' });
+    },
+  });
+}
