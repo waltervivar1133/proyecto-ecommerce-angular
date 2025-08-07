@@ -2,8 +2,8 @@
   "name": "teslo-shop",
   "version": "0.0.0",
   "scripts": {
-    "ng": "nvm exec 22.12.0 ng",
-    "start": "ng serve",
+    "ng": "ng",
+    "start": "cmd /c \"nvm use 22.12.0 &&  ng serve -o\"",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

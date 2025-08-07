@@ -1,28 +1,29 @@
-import { Component, Input, computed } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductCardComponent } from '@products/components/product-card/product-card.component';
-import { Product } from '@products/interfaces/product.interface';
-
-export interface ProductsPayload {
-  products: Product[];
-}
+import {
+  ProductsResponse,
+} from '@products/interfaces/product.interface';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'products-grid',
-  standalone: true,
-  imports: [CommonModule, ProductCardComponent],
+  imports: [CommonModule, ProductCardComponent, PaginationComponent],
   templateUrl: './products-grid.component.html',
 })
 export class ProductsGridComponent {
-  @Input({ required: true })
-  resource!: {
+  resource = input.required<{
     isLoading: () => boolean;
     hasValue: () => boolean;
-    value: () => ProductsPayload | null | undefined;
-  };
+    value: () => ProductsResponse | null | undefined;
+  }>();
 
-  @Input() title = 'Todos los productos';
-  @Input() subtitle = 'Para todos los gustos';
+  title = input<string>('Todos los productos');
+  subtitle = input<string>('Para todos los gustos');
 
-  readonly list = computed(() => this.resource?.value()?.products ?? []);
+  readonly list = computed(() => this.resource()?.value()?.products ?? []);
+
+   readonly pages = computed<number>(() =>
+    this.resource()?.value()?.pages ?? 0
+  );
 }
