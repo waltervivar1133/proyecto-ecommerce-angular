@@ -3,6 +3,7 @@ import { ProductsService } from '@products/services/products.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 import { ProductsGridComponent } from '@store-front/components/products-grid/products-grid.component';
+import { PaginationService } from '@shared/components/pagination/pagination.service';
 
 @Component({
   selector: 'app-home-page',
@@ -18,10 +19,15 @@ import { ProductsGridComponent } from '@store-front/components/products-grid/pro
 export class HomePageComponent {
   productsService = inject(ProductsService);
 
+  paginationService = inject(PaginationService);
+
   productsResource = rxResource({
-    request: () => ({}),
-    loader: () => {
-      return this.productsService.getProducts({ limit: 10 });
+    request: () => ({ page: this.paginationService.currentPage() }),
+    loader: ({ request }) => {
+      return this.productsService.getProducts({
+        limit: 12,
+        offset: (request.page - 1) * 12,
+      });
     },
   });
 }
