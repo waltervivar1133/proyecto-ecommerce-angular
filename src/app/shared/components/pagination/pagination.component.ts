@@ -8,11 +8,10 @@ import {
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DebugPipe } from '@shared/pipes/debug.pipe';
 
 @Component({
   selector: 'pagination',
-  imports: [CommonModule, DebugPipe, RouterLink],
+  imports: [CommonModule, RouterLink],
   standalone: true,
   templateUrl: './pagination.component.html',
 })
