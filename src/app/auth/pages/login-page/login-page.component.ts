@@ -34,17 +34,20 @@ export class LoginPageComponent {
     const { email = '', password = '' } = this.loginForm.value;
     console.log({ email, password });
 
-    this.authService.login(email!, password!).subscribe((isAuthenticated) => {
-      if (isAuthenticated) {
-        console.log('Login successful');
-        this.router.navigateByUrl('/');
-      }
-
-      this.hasError.set(true);
-
-      setTimeout(() => {
-        this.hasError.set(false);
-      }, 2000);
+    this.authService.login(email!, password!).subscribe({
+      next: (isAuthenticated) => {
+        if (isAuthenticated) {
+          console.log('Login successful');
+          this.router.navigateByUrl('/');
+        } else {
+          this.hasError.set(true);
+          setTimeout(() => this.hasError.set(false), 2000);
+        }
+      },
+      error: () => {
+        this.hasError.set(true);
+        setTimeout(() => this.hasError.set(false), 2000);
+      },
     });
   }
 }
